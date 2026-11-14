@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
+    "dev": "vite dev --port 3304",
     "build": "vite build && node scripts/package-static.mjs",
     "build:dev": "vite build --mode development && node scripts/package-static.mjs development",
     "preview": "node scripts/preview.mjs",
@@ -12,7 +12,9 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:e2e": "node scripts/test-e2e.mjs",
+    "test:e2e:built": "playwright test"
   },
   "overrides": {
     "rolldown": "1.2.1"
@@ -72,6 +74,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.32.0",
+    "@playwright/test": "1.65.1",
     "@testing-library/jest-dom": "^6.6.0",
     "@testing-library/react": "^16.0.0",
     "@types/node": "^22.16.5",

@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  ClientOnly,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
@@ -106,7 +107,9 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        {/* The static shell contains no page UI. Keep the initial client render
+            identical even when a route's code is already preloaded. */}
+        <ClientOnly>{children}</ClientOnly>
         <Scripts />
       </body>
     </html>

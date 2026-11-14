@@ -20,9 +20,11 @@ export interface ParsedRequest {
 
 export function parseRequest(request: string): ParsedRequest {
   const r = request.toLowerCase();
-  const pick = <T,>(pairs: [RegExp, T][]) => pairs.find(([re]) => re.test(r))?.[1];
+  const pick = <T>(pairs: [RegExp, T][]) => pairs.find(([re]) => re.test(r))?.[1];
   let name: string | undefined;
-  const m = request.match(/name\s*(?:is|:|-)?\s*(?:for example|e\.g\.)?[\s,:]*([\p{Lu}][\p{L}'-]+(?:\s+[\p{Lu}][\p{L}'-]*\.?)?)/u);
+  const m = request.match(
+    /name\s*(?:is|:|-)?\s*(?:for example|e\.g\.)?[\s,:]*([\p{Lu}][\p{L}'-]+(?:\s+[\p{Lu}][\p{L}'-]*\.?)?)/u,
+  );
   if (m?.[1]) {
     name = m[1].trim();
     const last = name.split(/\s+/).pop()!;
@@ -32,9 +34,27 @@ export function parseRequest(request: string): ParsedRequest {
     type: labelTypeForRequest(request),
     name,
     glow: /glow/.test(r),
-    illustration: pick<RequestIllustration>([[/animal|bunny|rabbit|bear|cat|fox|puppy|dog/, "Bunny"], [/sun/, "Sunshine"], [/rainbow/, "Rainbow"], [/cherr|fruit/, "Cherries"], [/flower|floral/, "Flower"]]),
-    tone: pick<RequestTone>([[/mint|green/, "Mint"], [/peach|pink|orange/, "Peach"], [/butter|yellow/, "Butter"], [/lilac|purple|violet/, "Lilac"], [/sky|blue/, "Sky"]]),
-    font: pick<RequestFont>([[/handwrit|script/, "Handwritten"], [/simple|plain|clean/, "Simple"]]),
-    size: pick<RequestSize>([[/small|tiny/, "Small"], [/large|big/, "Large"]]),
+    illustration: pick<RequestIllustration>([
+      [/animal|bunny|rabbit|bear|cat|fox|puppy|dog/, "Bunny"],
+      [/sun/, "Sunshine"],
+      [/rainbow/, "Rainbow"],
+      [/cherr|fruit/, "Cherries"],
+      [/flower|floral/, "Flower"],
+    ]),
+    tone: pick<RequestTone>([
+      [/mint|green/, "Mint"],
+      [/peach|pink|orange/, "Peach"],
+      [/butter|yellow/, "Butter"],
+      [/lilac|purple|violet/, "Lilac"],
+      [/sky|blue/, "Sky"],
+    ]),
+    font: pick<RequestFont>([
+      [/handwrit|script/, "Handwritten"],
+      [/simple|plain|clean/, "Simple"],
+    ]),
+    size: pick<RequestSize>([
+      [/small|tiny/, "Small"],
+      [/large|big/, "Large"],
+    ]),
   };
 }
